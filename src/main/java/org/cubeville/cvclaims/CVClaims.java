@@ -22,16 +22,17 @@ public class CVClaims extends JavaPlugin {
     private CommandParser claimCommandParser;
     private CommandParser claimhereCommandParser;
     private CommandParser subzoneCommandParser;
+    private CommandParser shulkerSpotCommandParser;
 
     private ClaimManager claimManager;
-    
+
     public void onEnable() {
         File dataFolder = getDataFolder();
         if(!dataFolder.exists()) dataFolder.mkdirs();
         claimManager = new ClaimManager(dataFolder);
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
         for(Player p: players) claimManager.load(p.getUniqueId());
-        
+
         claimCommandParser = new CommandParser();
         claimCommandParser.addCommand(new ClaimCommand(claimManager));
 
@@ -40,6 +41,9 @@ public class CVClaims extends JavaPlugin {
 
         subzoneCommandParser = new CommandParser();
         subzoneCommandParser.addCommand(new SubzoneCommand(claimManager));
+
+        shulkerSpotCommandParser = new CommandParser();
+        shulkerSpotCommandParser.addCommand(new ShulkerSpotCommand(claimManager));
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(claimManager, this);
@@ -54,6 +58,9 @@ public class CVClaims extends JavaPlugin {
         }
         else if(command.getName().equals("subzone")) {
             return subzoneCommandParser.execute(sender, args);
+        }
+        else if(command.getName().equals("shulkerspot")) {
+            return shulkerSpotCommandParser.execute(sender, args);
         }
         return false;
     }

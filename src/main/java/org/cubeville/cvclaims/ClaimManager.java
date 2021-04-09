@@ -25,6 +25,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.flags.Flag;
 
 public class ClaimManager implements Listener
 {
@@ -33,7 +34,7 @@ public class ClaimManager implements Listener
     Map<UUID, Map<String, Set<String>>> playerRegionList;
     File dataFolder;
 
-    
+
     public ClaimManager(File dataFolder) {
         this.dataFolder = dataFolder;
         playerRegionList = new HashMap<>();
@@ -59,7 +60,7 @@ public class ClaimManager implements Listener
             }
         }
     }
-    
+
     public void save(UUID playerId) {
         YamlConfiguration config = new YamlConfiguration();
         Map<String, Set<String>> regionList = playerRegionList.get(playerId);
@@ -70,7 +71,7 @@ public class ClaimManager implements Listener
         }
         try {config.save(new File(dataFolder, playerId.toString())); } catch (IOException e) {}
     }
-    
+
     public void addPlayerRegion(UUID playerId, String worldName, String regionName) {
         if(!playerRegionList.containsKey(playerId)) playerRegionList.put(playerId, new HashMap<>());
         if(!playerRegionList.get(playerId).containsKey(worldName)) playerRegionList.get(playerId).put(worldName, new HashSet<>());
@@ -80,7 +81,7 @@ public class ClaimManager implements Listener
     public void removePlayerRegion(UUID playerId, String worldName, String regionName) {
         playerRegionList.get(playerId).get(worldName).remove(regionName);
     }
-    
+
     Set<String> getPlayerRegions(UUID playerId, String worldName) {
         if(!playerRegionList.containsKey(playerId)) return new HashSet<>();
         if(!playerRegionList.get(playerId).containsKey(worldName)) return new HashSet<>();
@@ -95,7 +96,7 @@ public class ClaimManager implements Listener
         if(player.hasPermission("cvclaims.max.7")) ret = 7;
         return ret;
     }
-    
+
     public void claimPlayerRegion(Player player, BlockVector min, BlockVector max, String regionName) {
         RegionManager regionManager = worldGuard.getRegionManager(player.getLocation().getWorld());
 
@@ -109,7 +110,7 @@ public class ClaimManager implements Listener
             }
         }
         if(regionName == null) throw new IllegalArgumentException("Unable to assign a region name. Please use the \"/claimrg\" command.");
-        
+
         if(regionManager.getRegion(regionName) != null) throw new IllegalArgumentException("A region with that name already exists. If it belongs to you and you want to replace it, remove it first with \"/rg remove " + regionName + "\".");
 
         LocalPlayer localPlayer = worldGuard.wrapPlayer(player);
@@ -138,7 +139,7 @@ public class ClaimManager implements Listener
     public void createSubzone(Player player, String parentRegionName, BlockVector min, BlockVector max, String childRegionName) {
 
         RegionManager regionManager = worldGuard.getRegionManager(player.getLocation().getWorld());
-        
+
         ProtectedRegion parentRegion = regionManager.getRegion(parentRegionName);
         if(parentRegion == null) throw new IllegalArgumentException("Region " + parentRegionName + " does not exist.");
         if(!(parentRegion instanceof ProtectedCuboidRegion)) throw new IllegalArgumentException("Subzoning is only possible within cuboid regions.");
@@ -156,5 +157,15 @@ public class ClaimManager implements Listener
             return;
         }
         regionManager.addRegion(childRegion);
+    }
+
+    public void setFlag(Player player, String regionName, Flag flag, Boolean state) {
+        RegionManager regionManager = worldGuard.getRegionManager(player.getLocation().getWorld());
+        ProtectedRegion region = regionManager.getRegion(regionName);
+
+        LocalPlayer localPlayer = worldGuard.wrapPlayer(player);
+        if(!region.isOwner(localPlayer)) throw new IllegalArgumentException("To add flags, you must be the owner of the region.");
+
+        region.setFlag(flag, state);
     }
 }
