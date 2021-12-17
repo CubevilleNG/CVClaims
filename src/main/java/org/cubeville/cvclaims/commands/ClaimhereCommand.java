@@ -33,8 +33,8 @@ public class ClaimhereCommand extends Command
         throws CommandExecutionException {
 
         Location loc = player.getLocation();
-        BlockVector3 min = BlockVector3.at(loc.getBlockX() - 24, 0, loc.getBlockZ() - 24);
-        BlockVector3 max = BlockVector3.at(loc.getBlockX() + 24, 255, loc.getBlockZ() + 24);
+        BlockVector3 min = BlockVector3.at(loc.getBlockX() - 24, -64, loc.getBlockZ() - 24);
+        BlockVector3 max = BlockVector3.at(loc.getBlockX() + 24, 319, loc.getBlockZ() + 24);
         if(baseParameters.size() == 0) {
             claimManager.claimPlayerRegion(player, min, max, null);
         }

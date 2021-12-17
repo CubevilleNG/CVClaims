@@ -1,7 +1,7 @@
 name: CVClaims
 main: org.cubeville.cvclaims.CVClaims
-authors: [FrediW]
-version: 0.1
+authors: [FrediW, Ptown16]
+version: 1.18
 depend: [CVTools]
 
 commands:
