@@ -4,7 +4,7 @@
   <groupId>org.cubeville</groupId>
   <artifactId>CVClaims</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>1.20</version>
   <name>CVClaims</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -14,13 +14,13 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
+      <version>1.20-R0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.cubeville</groupId>
       <artifactId>CVTools</artifactId>
-      <version>1.18</version>
+      <version>1.20</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -56,8 +56,8 @@
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
-      <id>sk89q-snapshots</id>
-      <url>http://maven.sk89q.com/artifactory/repo</url>
+      <id>sk89q-repo</id>
+      <url>https://maven.enginehub.org/repo/</url>
       <releases>
         <enabled>true</enabled>
       </releases>

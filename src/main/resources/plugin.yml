@@ -1,7 +1,8 @@
 name: CVClaims
 main: org.cubeville.cvclaims.CVClaims
 authors: [FrediW, Ptown16]
-version: 1.18
+version: '1.20'
+api-version: '1.20'
 depend: [CVTools, WorldGuard, WorldEdit]
 
 commands:
