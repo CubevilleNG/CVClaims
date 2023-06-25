@@ -90,7 +90,7 @@ public class ClaimManager implements Listener
     }
 
     int getMaximumPlayerRegionCount(Player player) {
-        int ret = 4;
+        int ret = 8;
         if(player.hasPermission("cvclaims.add.sk")) ret += 1;
         if(player.hasPermission("cvclaims.add.ep1")) ret += 1;
         if(player.hasPermission("cvclaims.add.ep2")) ret += 1;
